@@ -1,0 +1,10 @@
+[project]
+name = "mongodb-operational-semantic-twin-index"
+version = "0.0.1"
+description = "Scaffold: Operational-Semantic Twin Index (independent MongoDB lens)"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

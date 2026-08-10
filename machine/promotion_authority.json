@@ -1,0 +1,11 @@
+{
+  "schema": "glaciereq.promotion-authority-grant.v1",
+  "repository": "GlacierEQ/mongodb-operational-semantic-twin-index",
+  "source_sha": "c1aeacd0c091d768c9cefdcdfa64aa258c6b1360b919451e87f178fe23bfba6a",
+  "proof_receipt_digest": "5e72da3dc32efef306ef3dc741ab18a36ca607bf913ccef4ccce981cffeff752",
+  "not_after": 1788948674.833956,
+  "mac": "f13fad7db2ff6121468b433280f60558dfca82cacd1f9b65e74e87e93b1cfc18",
+  "issuer": "local_operator_promotion_authority",
+  "verified": true,
+  "secret_ref": "src/promotion_authority.py::LOCAL_OPERATOR_SECRET"
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "glaciereq.repo-capabilities.v1",
+  "repository": "GlacierEQ/mongodb-operational-semantic-twin-index",
+  "capabilities": [
+    {
+      "id": "operational-semantic-twin-index",
+      "name": "Operational-Semantic Twin Index",
+      "status": "SCAFFOLD",
+      "module": "src/operational_semantic_twin_index.py"
+    }
+  ]
+}

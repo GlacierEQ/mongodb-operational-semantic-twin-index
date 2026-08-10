@@ -1,0 +1,31 @@
+{
+  "schema": "glaciereq.proof-receipt.v1",
+  "repository": "GlacierEQ/mongodb-operational-semantic-twin-index",
+  "source_sha": "c1aeacd0c091d768c9cefdcdfa64aa258c6b1360b919451e87f178fe23bfba6a",
+  "proof_id": "elite-mongodb-operational-semantic-twin-index-1786356674",
+  "environment": {
+    "python": "/Users/kcbflux/.local/bin/python3.11",
+    "PYTHONPATH": "/Users/kcbflux/GlacierEQ_Swarm/job-app/repos/mongodb-operational-semantic-twin-index:/Users/kcbflux/GlacierEQ_Swarm/job-app/repos/mongodb-operational-semantic-twin-index/src",
+    "entry": "unittest"
+  },
+  "tests": [
+    "/Users/kcbflux/.local/bin/python3.11 -m unittest discover -s tests -v (x2)"
+  ],
+  "adversarial_tests": [
+    "tests/test_adversarial.py"
+  ],
+  "runtime": {
+    "operate": "scripts/operate.py (x2)",
+    "dual_run_ok": true,
+    "proof_dual_run_ok": true
+  },
+  "result": "PASS",
+  "limitations": [
+    "not production deployed",
+    "reference implementation only"
+  ],
+  "timestamp": "2026-08-10T10:11Z",
+  "artifact_hashes": {
+    "operability_receipt": "316da274cb0511d09faee0e2c58f39672ff75ff4a77c228491316f82b553f30a"
+  }
+}
