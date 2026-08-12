@@ -1,106 +1,36 @@
-# DEV_UP_INSTRUCTIONS — for implementing AIs / engineers
-
-## Excellence group enrollment
-
-- **Group:** Wave C
-- **Wave id:** `WAVE-C-2026-08-10`
-- **Enrolled:** 2026-08-10T1002Z
-- **Phase:** SCAFFOLD_ENROLLED → implement mechanism → proof → promote (XOR gap)
-- **DoD:** Bodybuilder gates in `excellence/framework/PIP_TO_BODYBUILDER_PIPELINE.md`
+# DEV_UP_INSTRUCTIONS — implementation record
 
 **Repository:** `GlacierEQ/mongodb-operational-semantic-twin-index`  
-**Company lens (independent):** MongoDB (`mongodb`)  
-**Innovation:** Operational-Semantic Twin Index  
-**Scaffold batch:** 2026-08-10T0924Z
+**Independent company lens:** MongoDB  
+**Innovation:** Operational-Semantic Twin Index
 
 ## Mission
 
-Implement a **real, testable** central mechanism that addresses the bottleneck below. Do **not** claim MongoDB affiliation, proprietary access, or production deployment.
+Derive retrieval/semantic state from authoritative application mutations so duplicated state cannot silently become a second source of truth.
 
-### Bottleneck
-integrating AI retrieval/memory without turning a general operational database into an overcomplex bundle or duplicating state across systems
+## Implemented
 
-### Brick wall
-Silent success without receipts; affiliation or production claims without evidence.
+The generic scaffold has been replaced by a deterministic transaction-linked projection engine.
 
-### Mechanism to implement
-Derive semantic indexes directly from authoritative document mutations with provenance and transaction linkage so app state and retrieval state cannot silently diverge.
+`src/operational_semantic_twin_index.py` now:
 
-## Hard rules (fail closed)
+- derives semantic projections from authoritative `upsert` and `delete` mutations;
+- binds source version, transaction id, mutation id, authoritative digest and semantic digest;
+- enforces contiguous per-document versions;
+- allows exact idempotent replay while refusing mutation-id reuse with changed content;
+- emits explicit delete tombstones;
+- verifies projection state against an authoritative snapshot;
+- exposes missing, stale, untombstoned, version-mismatched and content-divergent projections;
+- emits deterministic state/projection/decision digests.
 
-1. **No affiliation theater** — never state or imply MongoDB employment, endorsement, or proprietary systems access.
-2. **No magic numbers / ANSWER=42** — all thresholds named constants with units in comments.
-3. **No import-only operate** — `scripts/operate.py` must call real methods and assert behavioral outputs.
-4. **No field-echo tests** — tests must change inputs and observe different outputs / refuse paths.
-5. **Deterministic** — pure functions preferred; time/randomness injected.
-6. **Receipts** — success and refuse paths return structured dicts with digests where useful.
-7. **PROMOTED XOR gap** — do not mark PROMOTED while `machine/gap-receipt.json` exists.
-8. Keep public surface free of secrets, private repos, and personal contact PII.
+`src/operational_semantic_twin_cli.py` and `scripts/operate.py` execute the mechanism directly. The project is packaged with the `operational-semantic-twin` console command.
 
-## Implementation checklist
+## Verification contract
 
-### 1. Replace the stub mechanism
-File: `src/operational_semantic_twin_index.py`
+Behavioral tests cover initial projection, version advancement, version-gap refusal, idempotent replay, mutation-id conflict, delete/tombstone consistency, content divergence, and semantic-vs-authoritative digest behavior. Existing adversarial coverage remains active.
 
-- Expand `OperationalSemanticTwinIndex` into a complete, self-contained implementation.
-- Public API must stay stable enough that tests in `tests/test_operational_semantic_twin_index.py` can be upgraded (not gutted).
-- Include at least:
-  - happy-path success with structured result
-  - explicit **refuse** path (invalid input, budget exceeded, expired grant, etc.)
-  - deterministic digest/fingerprint for auditability
-- Prefer stdlib-only unless a dependency is essential (then pin in `requirements.txt`).
+CI must pass native tests, cold-start operation, wheel build/install and installed CLI execution before Helix may mint source-bound promotion evidence.
 
-### 2. Make operate real
-File: `scripts/operate.py`
+## Truth boundary
 
-- Import the mechanism, construct inputs, call methods, print JSON receipt.
-- Exit non-zero on refuse/failure.
-- Content-check that outputs are not empty / not mere class names.
-
-### 3. Strengthen tests
-Files: `tests/test_operational_semantic_twin_index.py`, `tests/test_adversarial.py`
-
-- Positive: ≥3 behavioral cases with distinct inputs → distinct outputs.
-- Negative: malformed input, expired authority, over-budget, idempotency where relevant.
-- Adversarial: attempt to smuggle affiliation claims or bypass refuse gates — must fail closed.
-
-### 4. Freeze the target contract
-File: `machine/target-contract.json`
-
-- Update `target.purpose` and `target.central_bottleneck` only if the mechanism narrows (never broadens into marketing).
-- When tests + operate pass: set `current.implemented/tested/operable` appropriately and bind proof receipt.
-
-### 5. Excellence state
-File: `machine/excellence-state.json`
-
-- Leave `DISCOVERED` until real proof exists.
-- On elevation: follow Helix promotion policy (AUTHORITY_BOUND + PROJECTION_TRUTH_CLOSED for PROMOTED).
-
-### 6. README honesty
-- Keep non-affiliation block.
-- Document exact current boundary (what works / what does not).
-
-## Suggested algorithm sketch
-
-```text
-input → validate schema → check authority/budget/freshness
-      → compute decision (allow | refuse)
-      → emit receipt {decision, reasons[], digest, metrics}
-```
-
-## Definition of done (for the filling AI)
-
-- [ ] `python -m pytest -q` passes with **real** behavioral tests (not skip-all)
-- [ ] `python scripts/operate.py` prints a JSON receipt with decision + digest
-- [ ] Refuse path covered
-- [ ] No company affiliation language outside the explicit non-affiliation disclaimer
-- [ ] `DEV_UP_INSTRUCTIONS.md` can be marked COMPLETED with date + commit in a short receipt note at bottom
-
-## Out of scope
-
-- Cloud deploy, customer pilots, proprietary MongoDB APIs
-- Multi-repo monorepos, secret material, personal data
-- Claiming “production-ready” without operate + tests + proof receipt
-
----
-*Scaffold only. Implementation is the next agent’s job.*
+No MongoDB affiliation, proprietary access, production deployment, customer impact, or company partnership is claimed. The current engine consumes normalized mutations/snapshots; an external change-stream/index adapter remains a further end-to-end depth step.
