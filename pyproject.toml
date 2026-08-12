@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "mongodb-operational-semantic-twin-index"
-version = "0.0.1"
-description = "Scaffold: Operational-Semantic Twin Index (independent MongoDB lens)"
+version = "1.0.0"
+description = "Transaction-linked operational-to-semantic projection and divergence verifier"
 requires-python = ">=3.11"
 dependencies = []
+
+[project.scripts]
+operational-semantic-twin = "operational_semantic_twin_cli:main"
+
+[tool.setuptools]
+py-modules = ["operational_semantic_twin_index", "operational_semantic_twin_cli", "promotion_authority"]
+package-dir = {"" = "src"}
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
