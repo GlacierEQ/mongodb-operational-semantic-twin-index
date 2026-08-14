@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mongodb-operational-semantic-twin-index"
-version = "1.0.0"
+version = "1.1.0"
 description = "Transaction-linked operational-to-semantic projection and divergence verifier"
 requires-python = ">=3.11"
 dependencies = []
@@ -13,7 +13,7 @@ dependencies = []
 operational-semantic-twin = "operational_semantic_twin_cli:main"
 
 [tool.setuptools]
-py-modules = ["operational_semantic_twin_index", "operational_semantic_twin_cli", "promotion_authority"]
+py-modules = ["operational_semantic_twin_index", "operational_semantic_twin_cli", "change_stream_adapter", "promotion_authority"]
 package-dir = {"" = "src"}
 
 [tool.pytest.ini_options]
